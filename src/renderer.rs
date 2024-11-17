@@ -1,6 +1,7 @@
 use minifb::{Key, Window, WindowOptions};
 use crate::planet::Planet;
 use crate::nave::Nave;
+use crate::camera::Camera;
 use crate::skybox::render_skybox;
 
 pub struct Renderer {
@@ -18,33 +19,32 @@ impl Renderer {
         Self { window, buffer, width, height }
     }
 
-    pub fn run(&mut self, planets: &mut [Planet], nave: &mut Nave) {
+    pub fn run(&mut self, planets: &mut [Planet], nave: &mut Nave, camera: &mut Camera) {
         let mut time = 0.0;
-        let mut last_frame = std::time::Instant::now();
-        let mut frame_count = 0;
 
         while self.window.is_open() && !self.window.is_key_down(Key::Escape) {
             self.buffer.fill(0);
 
-            render_skybox(&mut self.buffer, self.width, self.height, "assets/textures/skybox.png");
+            // Renderizar el skybox con la posición de la cámara
+            render_skybox(&mut self.buffer, self.width, self.height, "assets/textures/skybox.png", camera.position);
 
+            // Renderizar planetas
             for planet in planets.iter_mut() {
                 planet.update(time);
                 self.draw_model(&planet.model, planet.position, 0x00FF00);
             }
 
+            // Actualizar y renderizar la nave
             nave.update(&self.window);
+            camera.update(nave.position); // La cámara sigue la nave
             self.draw_model(&nave.model, nave.position, 0xFF0000);
 
-            self.window.update_with_buffer(&self.buffer, self.width, self.height).unwrap();
-            time += 0.01;
+            // Actualizar la ventana
+            self.window
+                .update_with_buffer(&self.buffer, self.width, self.height)
+                .unwrap();
 
-            frame_count += 1;
-            if last_frame.elapsed().as_secs() >= 1 {
-                println!("FPS: {}", frame_count);
-                frame_count = 0;
-                last_frame = std::time::Instant::now();
-            }
+            time += 0.01;
         }
     }
 

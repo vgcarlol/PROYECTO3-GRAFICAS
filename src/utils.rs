@@ -1,6 +1,7 @@
 pub fn project_vertex(vertex: [f32; 3], width: usize, height: usize, position: [f32; 3]) -> (usize, usize) {
     let fov: f32 = 90.0;
     let aspect_ratio = width as f32 / height as f32;
+
     let scale = (fov.to_radians() / 2.0).tan();
 
     let x = (vertex[0] - position[0]) / (vertex[2] - position[2]) * scale * aspect_ratio;

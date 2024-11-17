@@ -11,7 +11,7 @@ impl Nave {
     pub fn new(model_path: &str) -> Self {
         Self {
             model: Model::load(model_path),
-            position: [0.0, 0.0, 50.0],
+            position: [0.0, 0.0, 10.0],
             speed: 2.0,
         }
     }
@@ -28,12 +28,6 @@ impl Nave {
         }
         if window.is_key_down(Key::D) {
             self.position[0] += self.speed;
-        }
-        if window.is_key_down(Key::Up) {
-            self.position[2] -= self.speed;
-        }
-        if window.is_key_down(Key::Down) {
-            self.position[2] += self.speed;
         }
     }
 }
