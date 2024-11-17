@@ -21,9 +21,9 @@ impl Nave {
         Self {
             model: Model::load(model_path),
             texture,
-            position: [0.0, 0.0, 550.0], // Frente a la cámara
+            position: [0.0, 50.0, 0.0], // Posicionada en el plano eclíptico
             speed: 2.0,
-            scale: 50.0, // Ajustamos la escala inicial de la nave
+            scale: 50.0, // Escala ajustada para ser proporcional
         }
     }
 
@@ -43,11 +43,8 @@ impl Nave {
             self.position[0] += self.speed * speed_multiplier;
         }
 
-        // Aseguramos que la nave esté en el rango visible
-        self.position[0] = self.position[0].clamp(-500.0, 500.0);
-        self.position[2] = self.position[2].clamp(-500.0, 500.0);
+        self.position[1] = 50.0; // Asegurarse de mantener la nave en el plano eclíptico
 
-        // Actualizar la posición de la cámara para seguir a la nave
         camera.update(self.position);
     }
 }
