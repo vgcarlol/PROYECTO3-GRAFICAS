@@ -20,26 +20,28 @@ impl Nave {
         Self {
             model: Model::load(model_path),
             texture,
-            position: [0.0, 0.0, 10.0],
+            position: [0.0, 0.0, 50.0],
             speed: 2.0,
         }
     }
 
     pub fn update(&mut self, window: &minifb::Window, camera: &mut Camera) {
+        let speed_multiplier = 1.0; // Ajustamos la velocidad para coordinar con la cámara
+
         if window.is_key_down(Key::W) {
-            self.position[2] -= self.speed;
+            self.position[2] -= self.speed * speed_multiplier;
         }
         if window.is_key_down(Key::S) {
-            self.position[2] += self.speed;
+            self.position[2] += self.speed * speed_multiplier;
         }
         if window.is_key_down(Key::A) {
-            self.position[0] -= self.speed;
+            self.position[0] -= self.speed * speed_multiplier;
         }
         if window.is_key_down(Key::D) {
-            self.position[0] += self.speed;
+            self.position[0] += self.speed * speed_multiplier;
         }
 
-        // Actualizar posición de la cámara para seguir la nave
-        camera.position = self.position;
+        // Actualizar la posición de la cámara
+        camera.update(self.position);
     }
 }

@@ -14,6 +14,16 @@ use crate::camera::Camera;
 fn main() {
     let mut renderer = Renderer::new("Simulación del Sistema Solar", 800, 600);
 
+    // Crear la nave
+    let mut nave = Nave::new(
+        "assets/models/nave.obj",
+        "assets/textures/nave_texture.png",
+    );
+
+    // Ajustar la posición inicial de la nave
+    nave.position = [0.0, 0.0, 0.0];
+
+    // Crear planetas
     let mut planets = vec![
         Planet::new(
             "Mercurio",
@@ -45,12 +55,9 @@ fn main() {
         ),
     ];
 
-    let mut nave = Nave::new(
-        "assets/models/nave.obj",
-        "assets/textures/nave_texture.png",
-    );
-
+    // Crear la cámara
     let mut camera = Camera::new();
 
+    // Iniciar el renderer
     renderer.run(&mut planets, &mut nave, &mut camera);
 }
