@@ -4,14 +4,12 @@ pub fn project_vertex(
     height: usize,
     camera_position: [f32; 3],
 ) -> (usize, usize) {
-    let fov: f32 = 90.0; // Campo de visión
+    let fov: f32 = 90.0;
     let aspect_ratio = width as f32 / height as f32;
     let scale = (fov.to_radians() / 2.0).tan();
 
-    // Calcular la posición relativa al campo de visión de la cámara
     let z = vertex[2] - camera_position[2];
     if z <= 1.0 {
-        // Si está demasiado cerca o detrás de la cámara, no se proyecta
         return (width, height);
     }
 

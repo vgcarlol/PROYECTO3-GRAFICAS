@@ -6,14 +6,14 @@ pub struct Camera {
 impl Camera {
     pub fn new() -> Self {
         Self {
-            position: [0.0, 50.0, 400.0], // Más lejos para evitar objetos fuera del campo de visión
+            position: [0.0, 0.0, 1000.0],
             speed: 2.0,
         }
     }
 
     pub fn update(&mut self, target: [f32; 3]) {
-        let offset_z = 200.0; // Mantener la distancia adecuada
-        let offset_y = 50.0;  // Altura relativa
+        let offset_z = -450.0; // Mantener la distancia adecuada
+        let offset_y = 100.0;  // Altura relativa
         let follow_speed = 0.15; // Suavidad del movimiento
 
         self.position[0] += (target[0] - self.position[0]) * follow_speed;

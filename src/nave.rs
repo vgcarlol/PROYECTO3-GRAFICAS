@@ -9,6 +9,7 @@ pub struct Nave {
     pub texture: RgbaImage,
     pub position: [f32; 3],
     pub speed: f32,
+    pub scale: f32,
 }
 
 impl Nave {
@@ -20,13 +21,14 @@ impl Nave {
         Self {
             model: Model::load(model_path),
             texture,
-            position: [0.0, 0.0, 50.0],
+            position: [0.0, 0.0, 550.0], // Frente a la cámara
             speed: 2.0,
+            scale: 50.0, // Ajustamos la escala inicial de la nave
         }
     }
 
     pub fn update(&mut self, window: &minifb::Window, camera: &mut Camera) {
-        let speed_multiplier = 1.0; // Ajustamos la velocidad para coordinar con la cámara
+        let speed_multiplier = 1.0;
 
         if window.is_key_down(Key::W) {
             self.position[2] -= self.speed * speed_multiplier;
@@ -41,7 +43,11 @@ impl Nave {
             self.position[0] += self.speed * speed_multiplier;
         }
 
-        // Actualizar la posición de la cámara
+        // Aseguramos que la nave esté en el rango visible
+        self.position[0] = self.position[0].clamp(-500.0, 500.0);
+        self.position[2] = self.position[2].clamp(-500.0, 500.0);
+
+        // Actualizar la posición de la cámara para seguir a la nave
         camera.update(self.position);
     }
 }
