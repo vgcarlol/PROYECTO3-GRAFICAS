@@ -1,0 +1,9 @@
+[package]
+name = "PROYECTO3-GRAFICAS"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+minifb = "0.22"
+obj = "0.10.2"
+image = "0.24.5"
